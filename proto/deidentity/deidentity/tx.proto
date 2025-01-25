@@ -18,6 +18,7 @@ service Msg {
   // parameters. The authority defaults to the x/gov module account.
   rpc UpdateParams     (MsgUpdateParams    ) returns (MsgUpdateParamsResponse    );
   rpc RegisterIdentity (MsgRegisterIdentity) returns (MsgRegisterIdentityResponse);
+  rpc ApproveIdentity  (MsgApproveIdentity ) returns (MsgApproveIdentityResponse );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -46,4 +47,15 @@ message MsgRegisterIdentity {
 }
 
 message MsgRegisterIdentityResponse {}
+
+message MsgApproveIdentity {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator    = 1;
+  uint64 id         = 2;
+  string name       = 3;
+  string birthdate  = 4;
+  string nationalId = 5;
+}
+
+message MsgApproveIdentityResponse {}
 

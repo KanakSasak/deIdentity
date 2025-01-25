@@ -27,6 +27,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgRegisterIdentity int = 100
 
+	opWeightMsgApproveIdentity = "op_weight_msg_approve_identity"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgApproveIdentity int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -61,6 +65,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		deidentitysimulation.SimulateMsgRegisterIdentity(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgApproveIdentity int
+	simState.AppParams.GetOrGenerate(opWeightMsgApproveIdentity, &weightMsgApproveIdentity, nil,
+		func(_ *rand.Rand) {
+			weightMsgApproveIdentity = defaultWeightMsgApproveIdentity
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgApproveIdentity,
+		deidentitysimulation.SimulateMsgApproveIdentity(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -74,6 +89,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgRegisterIdentity,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				deidentitysimulation.SimulateMsgRegisterIdentity(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgApproveIdentity,
+			defaultWeightMsgApproveIdentity,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				deidentitysimulation.SimulateMsgApproveIdentity(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

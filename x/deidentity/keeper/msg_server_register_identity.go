@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 
 	"deIdentity/x/deidentity/types"
 
@@ -11,8 +13,20 @@ import (
 func (k msgServer) RegisterIdentity(goCtx context.Context, msg *types.MsgRegisterIdentity) (*types.MsgRegisterIdentityResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Handling the message
-	_ = ctx
+	hash := sha256.Sum256([]byte(msg.NationalId))
+	nationalIDhash := hex.EncodeToString(hash[:])
+
+	// Create a new Identity object
+	var identity = types.Identity{
+		Creator:    msg.Creator,
+		Name:       msg.Name,
+		Birthdate:  msg.Birthdate,
+		NationalId: nationalIDhash,
+		Verified:   false,
+	}
+
+	// Store the identity
+	k.AppendIdentity(ctx, identity)
 
 	return &types.MsgRegisterIdentityResponse{}, nil
 }

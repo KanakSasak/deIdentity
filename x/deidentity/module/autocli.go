@@ -45,6 +45,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a registerIdentity tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "name"}, {ProtoField: "birthdate"}, {ProtoField: "nationalId"}},
 				},
+				{
+					RpcMethod:      "ApproveIdentity",
+					Use:            "approve-identity [id] [name] [birthdate] [national-id]",
+					Short:          "Send a approveIdentity tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "name"}, {ProtoField: "birthdate"}, {ProtoField: "nationalId"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

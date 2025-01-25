@@ -9,5 +9,6 @@ message Identity {
   string name = 3;
   string birthdate = 4;
   string nationalId = 5;
+  bool verified   = 6;
   
 }
