@@ -1,0 +1,17 @@
+syntax = "proto3";
+package deidentity.deidentity;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "deidentity/deidentity/params.proto";
+
+option go_package = "deIdentity/x/deidentity/types";
+
+// GenesisState defines the deidentity module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
