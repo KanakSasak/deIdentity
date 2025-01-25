@@ -10,5 +10,6 @@ message Identity {
   string birthdate = 4;
   string nationalId = 5;
   bool verified   = 6;
+  string approve = 7;
   
 }

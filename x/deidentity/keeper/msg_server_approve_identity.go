@@ -31,6 +31,7 @@ func (k msgServer) ApproveIdentity(goCtx context.Context, msg *types.MsgApproveI
 	}
 
 	identity.Verified = true
+	identity.Approve = msg.Creator
 	k.SetIdentity(ctx, identity)
 	return &types.MsgApproveIdentityResponse{}, nil
 }
