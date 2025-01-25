@@ -56,7 +56,7 @@ deIdentityd tx deidentity approve-identity "Robot bro" "07/04/1865" NationIDNumb
 
 Get List Identity
 ```
-deIdentityd query deidentity list-identity
+deIdentityd query deidentity list-identity 
 ```
 
 ### Output
