@@ -29,6 +29,12 @@ service Query {
     option (google.api.http).get = "/deIdentity/deidentity/identity";
   
   }
+  
+  // Queries a list of SearchIdentity items.
+  rpc SearchIdentity (QuerySearchIdentityRequest) returns (QuerySearchIdentityResponse) {
+    option (google.api.http).get = "/deIdentity/deidentity/search_identity/{nationalId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -55,5 +61,13 @@ message QueryAllIdentityRequest {
 message QueryAllIdentityResponse {
   repeated Identity                               Identity   = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QuerySearchIdentityRequest {
+  string nationalId = 1;
+}
+
+message QuerySearchIdentityResponse {
+  Identity identity = 1;
 }
 

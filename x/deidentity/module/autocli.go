@@ -28,6 +28,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Shows a identity by id",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
+				{
+					RpcMethod:      "SearchIdentity",
+					Use:            "search-identity [national-id]",
+					Short:          "Query searchIdentity",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "nationalId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

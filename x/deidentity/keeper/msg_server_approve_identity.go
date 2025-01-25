@@ -2,9 +2,10 @@ package keeper
 
 import (
 	"context"
-	errorsmod "cosmossdk.io/errors"
 	"crypto/sha256"
 	"encoding/hex"
+
+	errorsmod "cosmossdk.io/errors"
 
 	"deIdentity/x/deidentity/types"
 
