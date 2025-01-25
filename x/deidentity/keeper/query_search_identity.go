@@ -2,29 +2,29 @@ package keeper
 
 import (
 	"context"
-	"cosmossdk.io/store/prefix"
-	storetypes "cosmossdk.io/store/types"
-	"github.com/cosmos/cosmos-sdk/runtime"
+	"crypto/sha256"
+	"encoding/hex"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"deIdentity/x/deidentity/types"
 )
 
-// GetNationalID returns the identity from its NationalId
-func (k Keeper) SearchByNationalID(ctx context.Context, NationalIDHash string) (val types.Identity, found bool) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.IdentityKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.Identity
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-
-		if val.NationalId == NationalIDHash {
-			return val, true
-		}
+func (k Keeper) SearchIdentity(goCtx context.Context, req *types.QuerySearchIdentityRequest) (*types.QuerySearchIdentityResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	return val, false
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	hash := sha256.Sum256([]byte(req.NationalId))
+	nationalIDhash := hex.EncodeToString(hash[:])
+
+	identity, found := k.SearchByNationalID(ctx, nationalIDhash)
+	if !found {
+		return nil, status.Error(codes.NotFound, "identity not found")
+	}
+
+	return &types.QuerySearchIdentityResponse{Identity: &identity}, nil
 }
