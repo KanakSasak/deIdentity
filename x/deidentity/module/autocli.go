@@ -39,6 +39,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "RegisterIdentity",
+					Use:            "register-identity [name] [birthdate] [national-id]",
+					Short:          "Send a registerIdentity tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "name"}, {ProtoField: "birthdate"}, {ProtoField: "nationalId"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
