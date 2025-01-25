@@ -38,9 +38,53 @@ After a draft release is created, make your final changes from the release page 
 To install the latest version of your blockchain node's binary, execute the following command on your machine:
 
 ```
-curl https://get.ignite.com/username/deIdentity@latest! | sudo bash
+curl https://get.ignite.com/kanaksasak/deIdentity@latest! | sudo bash
 ```
 `username/deIdentity` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
+
+### Query
+
+Register Identity
+```
+deIdentityd tx deidentity register-identity "Alice Wonderland" "07/04/1865" NationIDNumber123 --from alice --chain-id deIdentity
+```
+
+Approve Identity
+```
+deIdentityd tx deidentity approve-identity "Robot bro" "07/04/1865" NationIDNumber123 --from zack --chain-id deIdentity 
+```
+
+Get List Identity
+```
+deIdentityd query deidentity list-identity
+```
+
+### Output
+
+```
+┌──(kanaksasak㉿KanakSasak)-[~/GolandProjects/deIdentity]
+└─$ deIdentityd query deidentity list-identity                                                                                      
+Identity:
+- birthdate: 07/04/1865
+  creator: cosmos19j5hr3e3pgpe6ffwsk7ax7jkq7q8dc5jdsdt8g
+  name: Alice Wonderland
+  nationalId: 8fff406d619482a5e9984cbb85e747d1eeff3057f25c61d23045b161c761e871
+- birthdate: 07/04/1865
+  creator: cosmos19dzmndpmn9p6zje85k9zwavlwskugwgjxmctvl
+  id: "1"
+  name: Donald
+  nationalId: 8fff406d619482a5e9984cbb85e747d1eeff3057f25c61d23045b161c761e871
+- approve: cosmos19dzmndpmn9p6zje85k9zwavlwskugwgjxmctvl
+  birthdate: 07/04/1865
+  creator: cosmos19j5hr3e3pgpe6ffwsk7ax7jkq7q8dc5jdsdt8g
+  id: "2"
+  name: Robot bro
+  nationalId: 8fff406d619482a5e9984cbb85e747d1eeff3057f25c61d23045b161c761e871
+  verified: true
+pagination:
+  total: "3"
+
+```
 
 ## Learn more
 
