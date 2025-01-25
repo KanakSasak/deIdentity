@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package deidentity.deidentity;
 
 import "amino/amino.proto";
@@ -6,25 +7,53 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "deidentity/deidentity/params.proto";
+import "deidentity/deidentity/identity.proto";
 
 option go_package = "deIdentity/x/deidentity/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/deIdentity/deidentity/params";
+  
+  }
+  
+  // Queries a list of Identity items.
+  rpc Identity    (QueryGetIdentityRequest) returns (QueryGetIdentityResponse) {
+    option (google.api.http).get = "/deIdentity/deidentity/identity/{id}";
+  
+  }
+  rpc IdentityAll (QueryAllIdentityRequest) returns (QueryAllIdentityResponse) {
+    option (google.api.http).get = "/deIdentity/deidentity/identity";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
+
+message QueryGetIdentityRequest {
+  uint64 id = 1;
+}
+
+message QueryGetIdentityResponse {
+  Identity Identity = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllIdentityRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllIdentityResponse {
+  repeated Identity                               Identity   = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
